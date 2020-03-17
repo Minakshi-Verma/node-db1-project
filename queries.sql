@@ -34,7 +34,7 @@
 
 -- Update Bilbo Baggins record so that the postal code changes to "11122"
    
-     UPDATE Customers 
+    UPDATE Customers 
     SET PostalCode = '11122'
     WHERE CustomerID = 92;
 

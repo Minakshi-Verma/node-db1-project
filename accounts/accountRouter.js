@@ -38,6 +38,62 @@ const router = express.Router();
     })
   })
 
+  //------------POST request-----------
+
+   router.post("/", (req,res)=>{
+    //    const {id} = req.params
+    const {name, budget} = req.body
+
+    db("accounts")
+    .insert({name, budget})
+        .then(account=>{
+          res.status(201).json({ results: account });   
+        })
+        .catch(err=>{
+          res.status(500).json({message:"New account can not be added"})
+        })
+   })
+
+  //------------PUT request-------------
+
+  router.put("/:id",(req,res)=>{
+    const {id} = req.params
+    const {name, budget} = req.body
+    db("accounts")
+    .where({id})
+    .update({name, budget})
+        .then(count=>{     //(you can just write updated in both .then & if statement if you like)
+            if(count>0){         
+                res.status(200).json({message:"object updated successfully"})
+            }else{
+                res.status(500).json({error})
+            }           
+        })       
+        .catch(err=>{
+        console.log(err)
+        }) 
+  })
+
+  //-----------DELETE----------
+
+  router.delete('/:id', (req, res)=>{
+      const {id} = req.params
+      db("accounts")
+      .where({id})
+      .del()
+      .then(count=>{
+          if (count>0){
+              res.status(200).json({message:"deleted successfully"})
+          }else{
+              res.status(404).json({message:"account not found"})
+          }
+      })     
+
+  })
+
+  
+
+
 
 module.exports = router;
 
@@ -46,13 +102,14 @@ module.exports = router;
 
 
 
-// practicing async/await
+// practicing async/await  try/catch block is not essential
 
 // router.get("/", async(req,res)=>{
 //     try{
 //     const allAccounts = await db.select("*")
 //     res.status(200).json(allAccounts)    
-//     }catch{
+//     }catch(err){
+//     console.log(err)
 //     res.status(500).json({message:"Error getting the accounts"})
 //     }    
    
