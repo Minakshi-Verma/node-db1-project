@@ -47,7 +47,7 @@ const router = express.Router();
     db("accounts")
     .insert({name, budget})
         .then(account=>{
-          res.status(201).json({ results: account });   
+          res.status(201).json({ message:"account is added successfully" });   
         })
         .catch(err=>{
           res.status(500).json({message:"New account can not be added"})
